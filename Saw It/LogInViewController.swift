@@ -34,12 +34,13 @@ class LogInViewController: UIViewController {
 // MARK: - Action methods
     @IBAction func loginFBButton(_ sender: Any) {
         let login = FBSDKLoginManager();
+        
         login.logIn(withReadPermissions: ["email"], from: self) { (result: FBSDKLoginManagerLoginResult?, error: Error?) in
             if let loginError = error {
                 print(loginError);
             } else {
-                let req = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"email,name"], tokenString: FBSDKAccessToken.current().tokenString, version: nil, httpMethod: "GET")
-                req?.start(completionHandler: { (connection: FBSDKGraphRequestConnection?, result: Any?, error: Error?) in
+                let req = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"email,name"], tokenString: result?.token.tokenString, version: nil, httpMethod: "GET")
+                _ = req?.start(completionHandler: { (connection, result: Any?, error: Error?) in
                     let dict = result as! Dictionary<String, Any>
                     self.facebookEmail = dict["email"] as! String
                     self.performSegue(withIdentifier: "loginWithFB", sender: self)

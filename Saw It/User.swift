@@ -9,8 +9,12 @@
 import Foundation
 
 class User {
-    let firstName: String? = String()
-    let lastName: String? = String()
-    let email: String? = String()
-    let password: String? = String()
+    var firstName: String? = String()
+    var lastName: String? = String()
+    var email: String? = String()
+    var password: String? = String()
+    
+    public var users = [User]()
+    
+    static let sharedInstance = User()
 }

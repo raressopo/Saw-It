@@ -15,6 +15,7 @@
 		8E6E4B8A1F976D180023CD6D /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E6E4B861F976D180023CD6D /* FBSDKLoginKit.framework */; };
 		8E6E4B8B1F976D180023CD6D /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E6E4B871F976D180023CD6D /* FBSDKShareKit.framework */; };
 		8E6E4B8D1F9774310023CD6D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E4B8C1F9774310023CD6D /* HomeViewController.swift */; };
+		8E6E4B8F1F978B5A0023CD6D /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E4B8E1F978B5A0023CD6D /* SignUpViewController.swift */; };
 		8E71795F1F963B7300CF3F18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E71795E1F963B7300CF3F18 /* GoogleService-Info.plist */; };
 		8E860E351F90C228000D5F4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E860E341F90C228000D5F4C /* AppDelegate.swift */; };
 		8E860E3A1F90C228000D5F4C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E860E381F90C228000D5F4C /* Main.storyboard */; };
@@ -59,6 +60,7 @@
 		8E6E4B861F976D180023CD6D /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Frameworks/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		8E6E4B871F976D180023CD6D /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = Frameworks/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		8E6E4B8C1F9774310023CD6D /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		8E6E4B8E1F978B5A0023CD6D /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		8E71795E1F963B7300CF3F18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E860E311F90C228000D5F4C /* Saw It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Saw It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E860E341F90C228000D5F4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 			children = (
 				8E6E4B821F9756B20023CD6D /* LogInViewController.swift */,
 				8E6E4B8C1F9774310023CD6D /* HomeViewController.swift */,
+				8E6E4B8E1F978B5A0023CD6D /* SignUpViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -483,6 +486,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E6E4B8F1F978B5A0023CD6D /* SignUpViewController.swift in Sources */,
 				8E860E6A1F90C2E8000D5F4C /* User.swift in Sources */,
 				8E860E3D1F90C228000D5F4C /* Saw_It.xcdatamodeld in Sources */,
 				8E6E4B831F9756B20023CD6D /* LogInViewController.swift in Sources */,

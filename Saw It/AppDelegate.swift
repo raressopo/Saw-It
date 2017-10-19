@@ -15,30 +15,32 @@ import FBSDKCoreKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var ref: DatabaseReference! = nil
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        var ref: DatabaseReference!
+        // Get all users from DB and add user after registration
         ref = Database.database().reference(withPath: "users")
-        
-        ref!.observeSingleEvent(of: .value, with: { (snapshot) in
-            let usersDict = snapshot.value as? NSDictionary
-            
-            for key in usersDict!.allKeys {
-                let singleUserDict: Dictionary<String, Any> = usersDict?[key] as! Dictionary<String, Any>
-                let user = User()
-                user.email = singleUserDict["email"] as? String
-                user.firstName = singleUserDict["firstName"] as? String
-                user.lastName = singleUserDict["lastName"] as? String
-                user.password = singleUserDict["password"] as? String
+        if let reference = ref {
+            reference.observe(.childAdded, with: { (snapshot) in
+                //let usersDict = snapshot.value as? NSDictionary
                 
-                User.sharedInstance.users.append(user)
-            }
-        })
+                //for key in usersDict!.allKeys {
+                    let singleUserDict: Dictionary<String, Any> = snapshot.value as! Dictionary<String, Any>
+                    let user = User()
+                    user.email = singleUserDict["email"] as? String
+                    user.firstName = singleUserDict["firstName"] as? String
+                    user.lastName = singleUserDict["lastName"] as? String
+                    user.password = singleUserDict["password"] as? String
+                    
+                    User.sharedInstance.users.append(user)
+                //}
+            })
+        }
         
         return true
     }
@@ -65,6 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
+        ref.removeAllObservers()
         self.saveContext()
     }
     

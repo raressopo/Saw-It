@@ -11,7 +11,10 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 
 class LogInViewController: UIViewController {
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginFBButton: FBSDKLoginButton!
+    
     private var facebookEmail = String()
     
 // MARK: - View lifecycle and management
@@ -32,6 +35,22 @@ class LogInViewController: UIViewController {
     }
 
 // MARK: - Action methods
+    
+    @IBAction func logInButtonPressed(_ sender: Any) {
+        let user = User()
+
+        if let email = emailTextField.text, let password = passwordTextField.text {
+            user.email = email
+            user.password = password
+        }
+        
+        if user.isUserInDB() {
+            self.performSegue(withIdentifier: "loginNormal", sender: self)
+        } else {
+            //TODO: Add alert in case of failed Log In
+        }
+    }
+    
     @IBAction func loginFBButton(_ sender: Any) {
         let login = FBSDKLoginManager();
         
@@ -43,6 +62,7 @@ class LogInViewController: UIViewController {
                 _ = req?.start(completionHandler: { (connection, result: Any?, error: Error?) in
                     let dict = result as! Dictionary<String, Any>
                     self.facebookEmail = dict["email"] as! String
+                    
                     self.performSegue(withIdentifier: "loginWithFB", sender: self)
                 })
             }

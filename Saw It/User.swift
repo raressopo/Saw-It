@@ -17,4 +17,14 @@ class User {
     public var users = [User]()
     
     static let sharedInstance = User()
+    
+    public func isUserInDB() -> Bool {
+        for user: User in User.sharedInstance.users {
+            if self.email == user.email && self.password == user.password {
+                return true
+            }
+        }
+        
+        return false
+    }
 }

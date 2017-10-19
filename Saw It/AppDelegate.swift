@@ -23,22 +23,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
+        if let currentUser: User = UserDefaults.standard.value(forKey: "currentUser") as? User {
+            if currentUser.password != nil {
+                User.sharedInstance.currentUser = currentUser
+            }
+        }
+        
         // Get all users from DB and add user after registration
         ref = Database.database().reference(withPath: "users")
         if let reference = ref {
             reference.observe(.childAdded, with: { (snapshot) in
-                //let usersDict = snapshot.value as? NSDictionary
+                let singleUserDict: Dictionary<String, Any> = snapshot.value as! Dictionary<String, Any>
+                let user = User()
+                user.email = singleUserDict["email"] as? String
+                user.firstName = singleUserDict["firstName"] as? String
+                user.lastName = singleUserDict["lastName"] as? String
                 
-                //for key in usersDict!.allKeys {
-                    let singleUserDict: Dictionary<String, Any> = snapshot.value as! Dictionary<String, Any>
-                    let user = User()
-                    user.email = singleUserDict["email"] as? String
-                    user.firstName = singleUserDict["firstName"] as? String
-                    user.lastName = singleUserDict["lastName"] as? String
-                    user.password = singleUserDict["password"] as? String
-                    
-                    User.sharedInstance.users.append(user)
-                //}
+                if let password = singleUserDict["password"] {
+                    user.password = password as? String
+                } else {
+                    user.accesToken = singleUserDict["accesToken"] as? String
+                }
+                
+                User.sharedInstance.users.append(user)
+                
             })
         }
         

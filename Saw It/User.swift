@@ -8,13 +8,15 @@
 
 import Foundation
 
-class User {
+class User: NSObject {
     var firstName: String? = String()
     var lastName: String? = String()
     var email: String? = String()
     var password: String? = String()
+    var accesToken: String? = String()
     
     public var users = [User]()
+    public var currentUser: User?
     
     static let sharedInstance = User()
     

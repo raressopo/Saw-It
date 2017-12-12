@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -211,6 +211,57 @@
             </objects>
             <point key="canvasLocation" x="116" y="810.94452773613204"/>
         </scene>
+        <!--Add Movie Vie Controller-->
+        <scene sceneID="FEy-UI-TgU">
+            <objects>
+                <viewController id="tE9-PE-pZ0" customClass="AddMovieVieController" customModule="Saw_It" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ooG-8d-uV3"/>
+                        <viewControllerLayoutGuide type="bottom" id="8om-k2-g9U"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="X2T-mW-nwe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="x69-JW-QHI">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Xyu-6h-xQy">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="TyK-vQ-iP4">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TyK-vQ-iP4" id="s2o-0i-A63">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="x69-JW-QHI" firstAttribute="top" secondItem="ooG-8d-uV3" secondAttribute="bottom" id="3p3-bu-WxB"/>
+                            <constraint firstItem="8om-k2-g9U" firstAttribute="top" secondItem="Xyu-6h-xQy" secondAttribute="bottom" id="GIU-We-VUe"/>
+                            <constraint firstItem="Xyu-6h-xQy" firstAttribute="leading" secondItem="X2T-mW-nwe" secondAttribute="leading" id="Jfg-cH-S2m"/>
+                            <constraint firstItem="Xyu-6h-xQy" firstAttribute="top" secondItem="x69-JW-QHI" secondAttribute="bottom" id="KLV-KZ-ioC"/>
+                            <constraint firstItem="Xyu-6h-xQy" firstAttribute="top" secondItem="x69-JW-QHI" secondAttribute="bottom" id="fG7-5o-lfR"/>
+                            <constraint firstAttribute="trailing" secondItem="Xyu-6h-xQy" secondAttribute="trailing" id="u2f-h7-84Y"/>
+                            <constraint firstItem="x69-JW-QHI" firstAttribute="leading" secondItem="X2T-mW-nwe" secondAttribute="leading" id="xXY-cC-UiB"/>
+                            <constraint firstAttribute="trailing" secondItem="x69-JW-QHI" secondAttribute="trailing" id="zNT-Gc-xkb"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="searchBar" destination="x69-JW-QHI" id="C1L-oy-gKs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rF8-Pi-j9V" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="861.60000000000002" y="810.94452773613204"/>
+        </scene>
         <!--Home View Controller-->
         <scene sceneID="cqH-Th-oha">
             <objects>
@@ -238,7 +289,7 @@
                                         <rect key="frame" x="0.0" y="28" width="343" height="77"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zuc-Xc-vVv" id="6FF-bO-GcG">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="76.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="76"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cqi-hV-BTf">
@@ -302,7 +353,7 @@
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q8l-VL-ZVV">
-                                <rect key="frame" x="167.5" y="629" width="39" height="30"/>
+                                <rect key="frame" x="168" y="629" width="39" height="30"/>
                                 <state key="normal" title="Menu"/>
                                 <connections>
                                     <action selector="menuButtonPressed:" destination="J5M-CC-8Rc" eventType="touchUpInside" id="iJL-d9-pNN"/>
@@ -317,9 +368,12 @@
                                             <constraint firstAttribute="width" constant="120" id="LwQ-yG-8CF"/>
                                         </constraints>
                                         <state key="normal" title="Add Movie/Series"/>
+                                        <connections>
+                                            <action selector="addMovieSeriesPressed:" destination="J5M-CC-8Rc" eventType="touchUpInside" id="oko-m4-U8V"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v2R-a9-hdE">
-                                        <rect key="frame" x="153.5" y="46" width="35" height="30"/>
+                                        <rect key="frame" x="154" y="46" width="35" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="35" id="uR6-aw-Xbe"/>
                                         </constraints>
@@ -340,7 +394,7 @@
                                         <state key="normal" title="Settings"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5d-27-a6h">
-                                        <rect key="frame" x="143.5" y="160" width="55" height="30"/>
+                                        <rect key="frame" x="144" y="160" width="55" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="55" id="WgE-8L-392"/>
                                         </constraints>
@@ -366,6 +420,34 @@
                                     <constraint firstItem="v2R-a9-hdE" firstAttribute="centerX" secondItem="A0b-HX-ZK1" secondAttribute="centerX" id="u2L-RR-1Xo"/>
                                 </constraints>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i14-e2-6Ks">
+                                <rect key="frame" x="67" y="269" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YkR-ll-DS0">
+                                        <rect key="frame" x="48" y="49" width="41" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Movie"/>
+                                        <connections>
+                                            <segue destination="tE9-PE-pZ0" kind="show" id="fhK-sq-KMV"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4uj-Mc-0c8">
+                                        <rect key="frame" x="96" y="79" width="48" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Cancel"/>
+                                        <connections>
+                                            <action selector="cancelSelectMovieSeriesPressed:" destination="J5M-CC-8Rc" eventType="touchUpInside" id="egi-M2-jPC"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cjr-2i-WhW">
+                                        <rect key="frame" x="151" y="49" width="43" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Series"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -386,6 +468,7 @@
                     </view>
                     <connections>
                         <outlet property="menuView" destination="A0b-HX-ZK1" id="Bqv-pE-5iw"/>
+                        <outlet property="selectView" destination="i14-e2-6Ks" id="ALk-MQ-M9J"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xp7-a5-2Mk" userLabel="First Responder" sceneMemberID="firstResponder"/>

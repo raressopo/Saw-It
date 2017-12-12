@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
     public var userId = String()
     
     @IBOutlet weak var menuView: UIView!
+    @IBOutlet weak var selectView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,5 +31,13 @@ class HomeViewController: UIViewController {
     
     @IBAction func logOutButtonPressed(_ sender: Any) {
         FBSDKAccessToken.setCurrent(nil)
+    }
+    
+    @IBAction func addMovieSeriesPressed(_ sender: Any) {
+        selectView.isHidden = false
+    }
+    
+    @IBAction func cancelSelectMovieSeriesPressed(_ sender: Any) {
+        selectView.isHidden = true
     }
 }

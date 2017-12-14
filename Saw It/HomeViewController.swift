@@ -19,6 +19,13 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        selectView.layer.borderColor = UIColor.black.cgColor
+        selectView.layer.borderWidth = 2
+        selectView.layer.cornerRadius = 5
+        
+        menuView.layer.borderColor = UIColor.black.cgColor
+        menuView.layer.borderWidth = 2
+        menuView.layer.cornerRadius = 5
     }
     
     public func initWithEmail(_ email: String) {
@@ -34,6 +41,7 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func addMovieSeriesPressed(_ sender: Any) {
+        menuView.isHidden = true
         selectView.isHidden = false
     }
     

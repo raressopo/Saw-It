@@ -47,8 +47,6 @@ class AddMovieVieController: UIViewController, UISearchBarDelegate, UITableViewD
                     }
                     
                     OperationQueue.main.addOperation({
-                        //calling another function after fetching the json
-                        //it will show the names to label
                         self.tableView.reloadData()
                     })
                 }
@@ -74,10 +72,6 @@ class AddMovieVieController: UIViewController, UISearchBarDelegate, UITableViewD
                     let movie = Movie()
                     let genreIds: [Int] = movieDict["genre_ids"] as! [Int]
                     
-//                    for genreId in genreIds {
-//                        movie.genre.types.append(GenreId(rawValue: genreId))
-//                    }
-                    
                     movie.title = movieDict["original_title"] as! String
                     movie.releaseDate = movieDict["release_date"] as! String
                     movie.rating = movieDict["vote_average"] as! NSNumber
@@ -89,13 +83,9 @@ class AddMovieVieController: UIViewController, UISearchBarDelegate, UITableViewD
                         url = URL.init(string: "http://image.tmdb.org/t/p/w185/\(posterUrl)")
                     }
                     
-                    //let receivedData = NSData.init(contentsOf: url!)
-                    //movie.poster = UIImage.init(data: receivedData! as Data)!
-                    
-                    //Movie.sharedInstance.movies.append(movie)
-                    
                     if let user = User.sharedInstance.currentUser?.email {
                         let ref = Database.database().reference(withPath: "\(user)").child("\(movie.title)")
+                        
                         if let u = url?.absoluteString {
                             let newMovieDetails = ["title": movie.title, "posterUrl": u, "rating": movie.rating, "releaseDate": movie.releaseDate, "genreIds": genreIds] as [String : Any]
                             

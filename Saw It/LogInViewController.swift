@@ -36,7 +36,7 @@ class LogInViewController: UIViewController {
             }
             
             self.performSegue(withIdentifier: "loginNormal", sender: self)
-            // TODO: Treat the case when the user has loged in before on the app
+            // TODO: Treat the case where the user has loged in before on the app
         }
     }
     

@@ -38,7 +38,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         menuView.layer.borderWidth = 2
         menuView.layer.cornerRadius = 5
         
-        // Get all users from DB and add user after registration
+        // Get all movies from DB for the currentUser only
         if let user = User.sharedInstance.currentUser?.email {
             moviesRef = Database.database().reference(withPath: "\(user)")
             if let reference = moviesRef {
@@ -121,6 +121,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 genre.append("\(gen),")
             }
         }
+        
+        genre.removeLast(1);
+        
         cell.genreLabel.text = genre
         
         rating.append("\(movie.rating)")

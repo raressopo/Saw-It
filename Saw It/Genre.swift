@@ -74,6 +74,7 @@ enum GenreId: Int {
         }
     }
 }
+
 class Genre: NSObject {
     var types = [GenreId(rawValue: 0)]
     var type = GenreId(rawValue: 0)

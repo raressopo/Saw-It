@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var imageView: UIImageView!
@@ -31,9 +32,15 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
         tableView.IMDBRatingCell.detailTextLabel?.text = movie.rating.stringValue
         tableView.releaseDateCell.detailTextLabel?.text = movie.releaseDate
         
+        if movie.userRating != 0 {
+            tableView.userRatingCell.detailTextLabel?.text = "\(movie.userRating)"
+        }
+        
         rateView.layer.borderColor = UIColor.black.cgColor
         rateView.layer.borderWidth = 2
         rateView.layer.cornerRadius = 5
+        
+        rateTextView.clearsOnBeginEditing = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -102,13 +109,67 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 5 {
+            if movie.userRating != 0 {
+                rateTextView.text = "\(movie.userRating)"
+            }
+            
             rateView.isHidden = false
         }
     }
     
     @IBAction func rateSavedPressed(_ sender: Any) {
-        tableView.userRatingCell.detailTextLabel?.text = rateTextView.text
-        rateView.isHidden = true
+        let rate: String? = rateTextView.text
         
+        if let amount = rate {
+            if Double(amount) == nil {
+                let alert = UIAlertController(title: "Incorrect rate", message: "Please enter a rate that is greater than 1 and smaller than 10", preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
+                rateTextView.text = ""
+                
+                return
+            }
+            
+            let rateAsDouble = Double(amount)!
+            
+            if rateAsDouble < 1.0 {
+                let alert = UIAlertController(title: "Incorrect rate", message: "Please enter a rate that is greater than 1 and smaller than 10", preferredStyle: .alert)
+            
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            
+                self.present(alert, animated: true, completion: nil)
+                rateTextView.text = ""
+                
+                return
+            } else if rateAsDouble > 10.0 {
+                let alert = UIAlertController(title: "Incorrect rate", message: "Please enter a rate that is greater than 1 and smaller than 10", preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
+                rateTextView.text = ""
+                
+                return
+            }
+            
+            if let user = User.sharedInstance.currentUser?.email {
+                let ref = Database.database().reference(withPath: "\(user)").child("\(movie.title)").child("userRating")
+                
+                ref.setValue(rateAsDouble) { (error: Error?, reference) in
+                    if error == nil {
+                        let movieIndex = Movie.sharedInstance.movies.index(of: self.movie)
+                        Movie.sharedInstance.movies.remove(at: movieIndex!)
+                        
+                        self.movie.userRating = rateAsDouble
+                        Movie.sharedInstance.movies.append(self.movie)
+                        
+                        self.tableView.userRatingCell.detailTextLabel?.text = "\(rateAsDouble)"
+                        self.rateView.isHidden = true
+                    }
+                }
+            }
+        }
     }
 }

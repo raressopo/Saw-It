@@ -311,6 +311,7 @@
 				TargetAttributes = {
 					8E860E301F90C228000D5F4C = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 34465HEY94;
 						ProvisioningStyle = Automatic;
 					};
 					8E860E471F90C228000D5F4C = {
@@ -664,6 +665,7 @@
 			baseConfigurationReference = 001269255932CFCFF79821BF /* Pods-Saw It.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 34465HEY94;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$PODS_CONFIGURATION_BUILD_DIR/GoogleToolboxForMac\"",
@@ -687,6 +689,7 @@
 			baseConfigurationReference = 198C8515F5B9D49D9966C915 /* Pods-Saw It.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 34465HEY94;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$PODS_CONFIGURATION_BUILD_DIR/GoogleToolboxForMac\"",

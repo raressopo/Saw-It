@@ -52,6 +52,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     movie.releaseDate = singleMovieDict["releaseDate"] as! String
                     movie.movieId = singleMovieDict["id"] as! Int
                     
+                    if let userRating = singleMovieDict["userRating"] {
+                        movie.userRating = userRating as! Double
+                    }
+                    
                     var url = URL.init(string: "")
                     
                     if let posterUrl = singleMovieDict["posterUrl"] {

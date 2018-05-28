@@ -27,7 +27,7 @@ class Movie: NSObject {
     var length = String()
     var status = MovieStatus(rawValue: 3)
     var minutesPaused = Int()
-    var userRating = NSNumber()
+    var userRating = Double()
     
     public var movies = [Movie]()
     

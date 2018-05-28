@@ -12,6 +12,8 @@
 		8E04BFC01FE062C200A3EC4E /* AddMovieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E04BFBF1FE062C200A3EC4E /* AddMovieViewController.swift */; };
 		8E2DF4EC1FE5CFA20055E279 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DF4EB1FE5CFA20055E279 /* Movie.swift */; };
 		8E2DF4EE1FE5D2730055E279 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DF4ED1FE5D2730055E279 /* Genre.swift */; };
+		8E55827720BC1A6400755EC2 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E55827620BC1A6400755EC2 /* MovieDetailsViewController.swift */; };
+		8E55827920BC289500755EC2 /* MovieDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E55827820BC289500755EC2 /* MovieDetailsTableViewController.swift */; };
 		8E6E4B831F9756B20023CD6D /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E4B821F9756B20023CD6D /* LogInViewController.swift */; };
 		8E6E4B881F976D180023CD6D /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E6E4B841F976D180023CD6D /* Bolts.framework */; };
 		8E6E4B891F976D180023CD6D /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E6E4B851F976D180023CD6D /* FBSDKCoreKit.framework */; };
@@ -60,6 +62,8 @@
 		8E04BFBF1FE062C200A3EC4E /* AddMovieViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMovieViewController.swift; sourceTree = "<group>"; };
 		8E2DF4EB1FE5CFA20055E279 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		8E2DF4ED1FE5D2730055E279 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
+		8E55827620BC1A6400755EC2 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
+		8E55827820BC289500755EC2 /* MovieDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsTableViewController.swift; sourceTree = "<group>"; };
 		8E6E4B821F9756B20023CD6D /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		8E6E4B841F976D180023CD6D /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
 		8E6E4B851F976D180023CD6D /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Frameworks/FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -211,6 +215,8 @@
 				8E6E4B8C1F9774310023CD6D /* HomeViewController.swift */,
 				8E6E4B8E1F978B5A0023CD6D /* SignUpViewController.swift */,
 				8E04BFBF1FE062C200A3EC4E /* AddMovieViewController.swift */,
+				8E55827620BC1A6400755EC2 /* MovieDetailsViewController.swift */,
+				8E55827820BC289500755EC2 /* MovieDetailsTableViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -495,12 +501,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E55827720BC1A6400755EC2 /* MovieDetailsViewController.swift in Sources */,
 				8E2DF4EE1FE5D2730055E279 /* Genre.swift in Sources */,
 				8E6E4B8F1F978B5A0023CD6D /* SignUpViewController.swift in Sources */,
 				8E860E6A1F90C2E8000D5F4C /* User.swift in Sources */,
 				8E860E3D1F90C228000D5F4C /* Saw_It.xcdatamodeld in Sources */,
 				8E04BFC01FE062C200A3EC4E /* AddMovieViewController.swift in Sources */,
 				8E6E4B831F9756B20023CD6D /* LogInViewController.swift in Sources */,
+				8E55827920BC289500755EC2 /* MovieDetailsTableViewController.swift in Sources */,
 				8E860E351F90C228000D5F4C /* AppDelegate.swift in Sources */,
 				8E2DF4EC1FE5CFA20055E279 /* Movie.swift in Sources */,
 				8E6E4B8D1F9774310023CD6D /* HomeViewController.swift in Sources */,

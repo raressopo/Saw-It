@@ -23,6 +23,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     public var email = String()
     public var userId = String()
     var moviesRef: DatabaseReference! = nil
+    var selectedMovie = Movie()
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var menuView: UIView!
@@ -49,6 +50,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     movie.title = singleMovieDict["title"] as! String
                     movie.rating = singleMovieDict["rating"] as! NSNumber
                     movie.releaseDate = singleMovieDict["releaseDate"] as! String
+                    movie.movieId = singleMovieDict["id"] as! Int
                     
                     var url = URL.init(string: "")
                     
@@ -110,30 +112,28 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let movie = Movie.sharedInstance.movies[indexPath.row]
         
         cell.titleLabel.text = movie.title
-        
-        var rating = "⭐️ "
-        var genre = ""
-        
         cell.posterImageView.image = movie.poster
-        
-        for g in movie.genre.types {
-            if let gen = g?.asString() {
-                genre.append("\(gen),")
-            }
-        }
-        
-        genre.removeLast(1);
-        
-        cell.genreLabel.text = genre
-        
-        rating.append("\(movie.rating)")
-        cell.ratingLabel.text = rating
-        
+        cell.genreLabel.text = movie.genreAsString()
         cell.releaseDateLabel.text = movie.releaseDate
         
-        cell.titleLabel.sizeToFit()
+        var rating = "⭐️ "
+        rating.append("\(movie.rating)")
+        cell.ratingLabel.text = rating
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedMovie = Movie.sharedInstance.movies[indexPath.row]
+        
+        self.performSegue(withIdentifier: "movieSelected", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "movieSelected" {
+            let nextView = segue.destination as! MovieDetailsViewController
+            
+            nextView.movie = selectedMovie
+        }
+    }
 }

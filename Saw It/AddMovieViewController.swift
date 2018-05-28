@@ -75,6 +75,7 @@ class AddMovieVieController: UIViewController, UISearchBarDelegate, UITableViewD
                     movie.title = movieDict["original_title"] as! String
                     movie.releaseDate = movieDict["release_date"] as! String
                     movie.rating = movieDict["vote_average"] as! NSNumber
+                    movie.movieId = movieDict["id"] as! Int
                     
                     // Download and add poster
                     var url = URL.init(string: "")
@@ -87,7 +88,7 @@ class AddMovieVieController: UIViewController, UISearchBarDelegate, UITableViewD
                         let ref = Database.database().reference(withPath: "\(user)").child("\(movie.title)")
                         
                         if let u = url?.absoluteString {
-                            let newMovieDetails = ["title": movie.title, "posterUrl": u, "rating": movie.rating, "releaseDate": movie.releaseDate, "genreIds": genreIds] as [String : Any]
+                            let newMovieDetails = ["title": movie.title, "posterUrl": u, "rating": movie.rating, "releaseDate": movie.releaseDate, "genreIds": genreIds, "id": movie.movieId] as [String : Any]
                             
                             ref.setValue(newMovieDetails) { (error: Error?, reference) in
                                 if error == nil {

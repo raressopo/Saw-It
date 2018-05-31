@@ -9,9 +9,22 @@
 import UIKit
 
 enum MovieStatus: Int {
-    case Seen = 1
-    case Paused = 2
-    case Unseen = 3
+    case Seen = 0
+    case Paused = 1
+    case Unseen = 2
+    
+    func asString() -> String {
+        switch self.rawValue {
+        case 0:
+            return "Seen"
+        case 1:
+            return "Paused"
+        case 2:
+            return "Unseen"
+        default:
+            return ""
+        }
+    }
 }
 
 class Movie: NSObject {
@@ -25,7 +38,7 @@ class Movie: NSObject {
     // These props are for movie details
     var actors = String()
     var length = String()
-    var status = MovieStatus(rawValue: 3)
+    var status = MovieStatus(rawValue: 2)
     var minutesPaused = Int()
     var userRating = Double()
     

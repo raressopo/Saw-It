@@ -9,21 +9,29 @@
 import UIKit
 import Firebase
 
-class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var infoContainerView: UIView!
     @IBOutlet weak var rateView: UIView!
     @IBOutlet weak var rateTextView: UITextField!
+    @IBOutlet weak var statusPicker: UIPickerView!
+    @IBOutlet weak var minutesPausedView: UIView!
+    @IBOutlet weak var minutesPausedTextView: UITextField!
     
     var movie = Movie()
     var tableView = MovieDetailsTableViewController()
     var movieLength = NSNumber()
     
+    // MARK: View lifecycle
+    
     override func viewDidLoad() {
         tableView = self.childViewControllers[0] as! MovieDetailsTableViewController
         tableView.tableView.delegate = self
         tableView.tableView.dataSource = self
+        
+        statusPicker.delegate = self
+        statusPicker.dataSource = self
         
         imageView.image = movie.poster
         movieTitleLabel.text = movie.title
@@ -36,9 +44,26 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
             tableView.userRatingCell.detailTextLabel?.text = "\(movie.userRating)"
         }
         
+        
+        if movie.status!.rawValue >= 0 && movie.status!.rawValue <= 2 {
+            tableView.statusCell.detailTextLabel?.text = "\(movie.status!.asString())"
+            
+            statusPicker.selectRow((movie.status?.rawValue)!, inComponent: 0, animated: false)
+        }
+        
+        tableView.pausedMinutesCell.detailTextLabel?.text = "at \(self.minutesFromIntToString(minutes: movie.minutesPaused)):00"
+        
         rateView.layer.borderColor = UIColor.black.cgColor
         rateView.layer.borderWidth = 2
         rateView.layer.cornerRadius = 5
+        
+        statusPicker.layer.borderColor = UIColor.black.cgColor
+        statusPicker.layer.borderWidth = 2
+        statusPicker.layer.cornerRadius = 5
+        
+        minutesPausedView.layer.borderColor = UIColor.black.cgColor
+        minutesPausedView.layer.borderWidth = 2
+        minutesPausedView.layer.cornerRadius = 5
         
         rateTextView.clearsOnBeginEditing = true
     }
@@ -47,6 +72,8 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
         self.getLengthForMovie(id: movie.movieId)
         self.getActorsForMovie(id: movie.movieId)
     }
+    
+    // MARK: Helper methods
     
     func getLengthForMovie(id: Int) {
         let url = NSURL.init(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=d82d110a851216802c26c3ad4bcf70c2&language=en-US")
@@ -98,6 +125,25 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
         }).resume()
     }
     
+    func minutesPausedToInt() -> Int {
+        let hour = minutesPausedTextView.text?.substring(to: String.Index.init(encodedOffset: 1))
+        let minute = minutesPausedTextView.text?.substring(from: String.Index.init(encodedOffset: 2))
+        
+        let minutesPaused = Int(String(hour!))! * 60 + Int(String(minute!))!
+        
+        return minutesPaused
+    }
+    
+    func minutesFromIntToString(minutes: Int) -> String {
+        let hour = minutes / 60
+        let minute = minutes % 60
+        let minuteString = String(minute).count == 1 ? "0\(minute)" : "\(minute)"
+        
+        return "\(hour):\(minuteString)"
+    }
+    
+    // MARK: TableView delegate
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 8
     }
@@ -114,6 +160,92 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
             }
             
             rateView.isHidden = false
+        } else if indexPath.row == 6 {
+            statusPicker.isHidden = false;
+        }
+    }
+    
+    // MARK: PickerView delegate
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 3
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if row == 0 {
+            return "Seen"
+        } else if row == 1 {
+            return "Paused"
+        } else {
+            return "Unseen"
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if let user = User.sharedInstance.currentUser?.email {
+            let ref = Database.database().reference(withPath: "\(user)").child("\(movie.title)").child("status")
+            
+            ref.setValue(row) { (error: Error?, reference) in
+                if error == nil {
+                    let movieIndex = Movie.sharedInstance.movies.index(of: self.movie)
+                    Movie.sharedInstance.movies.remove(at: movieIndex!)
+                    
+                    self.movie.status = MovieStatus(rawValue: row)
+                    Movie.sharedInstance.movies.append(self.movie)
+                    
+                    self.tableView.statusCell.detailTextLabel?.text = "\(self.movie.status!.asString())"
+                    self.statusPicker.isHidden = true
+                    
+                    if row == 1 {
+                        self.minutesPausedView.isHidden = false
+                    } else {
+                        self.tableView.pausedMinutesCell.detailTextLabel?.text = ""
+                        self.tableView.pausedMinutesCell.isUserInteractionEnabled = false
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: Action methods
+    
+    @IBAction func saveMinutesPausedPressed(_ sender: Any) {
+        if let minPaused = minutesPausedTextView.text {
+            let hour = minPaused.substring(to: String.Index.init(encodedOffset: 1))
+            let minute = minPaused.substring(from: String.Index.init(encodedOffset: 2))
+            
+            if minPaused.count != 4 || minPaused[String.Index.init(encodedOffset: 1)] != ":" || (Int(hour) == nil) || (Int(minute) == nil) {
+                let alert = UIAlertController(title: "Incorrect time entered", message: "Please enter a valid time (eg. 0:05, 0:40, 1:24, 2:56)", preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
+                minutesPausedTextView.text = ""
+                
+                return
+            }
+        }
+        
+        if let user = User.sharedInstance.currentUser?.email {
+            let ref = Database.database().reference(withPath: "\(user)").child("\(movie.title)").child("minutesPaused")
+            let minutesPaused = self.minutesPausedToInt()
+            
+            ref.setValue(minutesPaused) { (error: Error?, reference) in
+                if error == nil {
+                    let movieIndex = Movie.sharedInstance.movies.index(of: self.movie)
+                    Movie.sharedInstance.movies.remove(at: movieIndex!)
+                    
+                    self.movie.minutesPaused = minutesPaused
+                    Movie.sharedInstance.movies.append(self.movie)
+                    
+                    self.tableView.pausedMinutesCell.detailTextLabel?.text = "at \(self.minutesFromIntToString(minutes: minutesPaused)):00"
+                    self.minutesPausedView.isHidden = true
+                }
+            }
         }
     }
     

@@ -56,6 +56,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                         movie.userRating = userRating as! Double
                     }
                     
+                    if let movieStatus = singleMovieDict["status"] {
+                        movie.status = MovieStatus(rawValue: movieStatus as! Int)
+                    }
+                    
+                    if let minPaused = singleMovieDict["minutesPaused"] {
+                        movie.minutesPaused = minPaused as! Int
+                    }
+                    
                     var url = URL.init(string: "")
                     
                     if let posterUrl = singleMovieDict["posterUrl"] {

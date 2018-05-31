@@ -162,6 +162,9 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
             rateView.isHidden = false
         } else if indexPath.row == 6 {
             statusPicker.isHidden = false;
+        } else if indexPath.row == 7 {
+            minutesPausedTextView.text = self.minutesFromIntToString(minutes: movie.minutesPaused)
+            minutesPausedView.isHidden = false
         }
     }
     

@@ -8,6 +8,7 @@ target 'Saw It' do
   # Pods for Saw It
 pod 'Firebase/Core'
 pod 'Firebase/Database'
+pod 'DropDown'
   target 'Saw ItTests' do
     inherit! :search_paths
     # Pods for testing

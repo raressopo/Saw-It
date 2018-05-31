@@ -10,6 +10,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 import Firebase
+import DropDown
 
 class AddedMovieCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
@@ -24,7 +25,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     public var userId = String()
     var moviesRef: DatabaseReference! = nil
     var selectedMovie = Movie()
+    let dropDown = DropDown()
     
+    @IBOutlet weak var filterButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var menuView: UIView!
     @IBOutlet weak var selectView: UIView!
@@ -38,6 +41,22 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         menuView.layer.borderColor = UIColor.black.cgColor
         menuView.layer.borderWidth = 2
         menuView.layer.cornerRadius = 5
+        
+        dropDown.anchorView = filterButton
+        dropDown.dataSource = ["Movie Name", "IMDB Rating", "User Rating", "Release Date"]
+        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            if index == 0 {
+                Movie.sharedInstance.movies.sort(by: { $0.title < $1.title })
+            } else if index == 1 {
+                Movie.sharedInstance.movies.sort(by: { $0.rating.intValue > $1.rating.intValue })
+            } else if index == 2 {
+                Movie.sharedInstance.movies.sort(by: { $0.userRating > $1.userRating })
+            } else {
+                Movie.sharedInstance.movies.sort(by: { $0.releaseDate > $1.releaseDate })
+            }
+            
+            self.tableView.reloadData()
+        }
         
         // Get all movies from DB for the currentUser only
         if let user = User.sharedInstance.currentUser?.email {
@@ -113,6 +132,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBAction func cancelSelectMovieSeriesPressed(_ sender: Any) {
         selectView.isHidden = true
+    }
+    
+    @IBAction func filterPressed(_ sender: Any) {
+        dropDown.show()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

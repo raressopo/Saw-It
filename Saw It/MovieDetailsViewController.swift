@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 
 class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
+    @IBOutlet weak var actorsLoadingSpinner: UIActivityIndicatorView!
+    @IBOutlet weak var actorsLoadingView: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var infoContainerView: UIView!
@@ -18,10 +20,15 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var statusPicker: UIPickerView!
     @IBOutlet weak var minutesPausedView: UIView!
     @IBOutlet weak var minutesPausedTextView: UITextField!
+    @IBOutlet weak var greyOutView: UIView!
     
     var movie = Movie()
     var tableView = MovieDetailsTableViewController()
     var movieLength = NSNumber()
+    var actors = [Actor]()
+    var finishedLoadingActors = false
+    var loadingActorsInProggres = false
+    var seeActorsPressed = false
     
     // MARK: View lifecycle
     
@@ -53,24 +60,25 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
         
         tableView.pausedMinutesCell.detailTextLabel?.text = "at \(self.minutesFromIntToString(minutes: movie.minutesPaused)):00"
         
-        rateView.layer.borderColor = UIColor.black.cgColor
-        rateView.layer.borderWidth = 2
-        rateView.layer.cornerRadius = 5
-        
-        statusPicker.layer.borderColor = UIColor.black.cgColor
-        statusPicker.layer.borderWidth = 2
-        statusPicker.layer.cornerRadius = 5
-        
-        minutesPausedView.layer.borderColor = UIColor.black.cgColor
-        minutesPausedView.layer.borderWidth = 2
-        minutesPausedView.layer.cornerRadius = 5
+        self.configureBorderViews()
         
         rateTextView.clearsOnBeginEditing = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.getLengthForMovie(id: movie.movieId)
-        self.getActorsForMovie(id: movie.movieId)
+        
+        if !finishedLoadingActors && !loadingActorsInProggres {
+            self.getActorsForMovie(id: movie.movieId)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showAllActors" {
+            let nextView = segue.destination as! ActorsTableViewController
+            
+            nextView.actors = actors
+        }
     }
     
     // MARK: Helper methods
@@ -107,19 +115,51 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
         URLSession.shared.dataTask(with: (url as URL?)!, completionHandler: {(data, response, error) -> Void in
             if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary {
                 let movieCredits = jsonObj!.value(forKey: "cast") as! Array<[String:Any]>
+                self.loadingActorsInProggres = true
+                
+                OperationQueue.main.addOperation({
+                    self.tableView.actorsCell.detailTextLabel?.text = "Loading..."
+                    
+                    self.tableView.reloadTableView()
+                })
                 
                 for actor in movieCredits {
+                    let actor2 = Actor()
+                    
                     for info in actor.keys {
                         if info.isEqual("name") {
                             actors.append(actor[info] as! String)
+                            
+                            actor2.name = actor[info] as! String
+                        } else if info.isEqual("id") {
+                            actor2.id = actor[info] as! Int
+                        } else if info.isEqual("character") {
+                            actor2.character = actor[info] as! String
+                        } else if info.isEqual("profile_path") {
+                            if let profilePath = actor[info] as? String {
+                                let url = URL.init(string: "https://image.tmdb.org/t/p/original/\(profilePath)")
+                            
+                                let receivedData = NSData.init(contentsOf: url!)
+                                actor2.profile = UIImage.init(data: receivedData! as Data)!
+                            }
                         }
                     }
+                    
+                    self.actors.append(actor2)
                 }
                 
                 OperationQueue.main.addOperation({
+                    self.actorsLoadingView.isHidden = true
+                    self.greyOutView.isHidden = true
+                    self.loadingActorsInProggres = false
+                    self.finishedLoadingActors = true
                     self.tableView.actorsCell.detailTextLabel?.text = "\(actors[0]), \(actors[1]), \(actors[2]) etc."
                     
                     self.tableView.reloadTableView()
+                    
+                    if self.seeActorsPressed {
+                        self.performSegue(withIdentifier: "showAllActors", sender: self)
+                    }
                 })
             }
         }).resume()
@@ -142,6 +182,24 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
         return "\(hour):\(minuteString)"
     }
     
+    func configureBorderViews() {
+        rateView.layer.borderColor = UIColor.black.cgColor
+        rateView.layer.borderWidth = 2
+        rateView.layer.cornerRadius = 5
+        
+        statusPicker.layer.borderColor = UIColor.black.cgColor
+        statusPicker.layer.borderWidth = 2
+        statusPicker.layer.cornerRadius = 5
+        
+        minutesPausedView.layer.borderColor = UIColor.black.cgColor
+        minutesPausedView.layer.borderWidth = 2
+        minutesPausedView.layer.cornerRadius = 5
+        
+        actorsLoadingView.layer.borderColor = UIColor.black.cgColor
+        actorsLoadingView.layer.borderWidth = 2
+        actorsLoadingView.layer.cornerRadius = 5
+    }
+    
     // MARK: TableView delegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -150,6 +208,7 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.tableView(tableView, cellForRowAt: indexPath)
+        
         return cell;
     }
     
@@ -159,12 +218,24 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
                 rateTextView.text = "\(movie.userRating)"
             }
             
+            greyOutView.isHidden = false
             rateView.isHidden = false
         } else if indexPath.row == 6 {
+            greyOutView.isHidden = false
             statusPicker.isHidden = false;
         } else if indexPath.row == 7 {
             minutesPausedTextView.text = self.minutesFromIntToString(minutes: movie.minutesPaused)
+            greyOutView.isHidden = false
             minutesPausedView.isHidden = false
+        } else if indexPath.row == 3 {
+            seeActorsPressed = true
+            
+            if loadingActorsInProggres {
+                greyOutView.isHidden = false
+                actorsLoadingView.isHidden = false
+            } else {
+                self.performSegue(withIdentifier: "showAllActors", sender: self)
+            }
         }
     }
     
@@ -205,7 +276,9 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
                     
                     if row == 1 {
                         self.minutesPausedView.isHidden = false
+                        self.tableView.pausedMinutesCell.isUserInteractionEnabled = true
                     } else {
+                        self.greyOutView.isHidden = true
                         self.tableView.pausedMinutesCell.detailTextLabel?.text = ""
                         self.tableView.pausedMinutesCell.isUserInteractionEnabled = false
                     }
@@ -247,6 +320,7 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
                     
                     self.tableView.pausedMinutesCell.detailTextLabel?.text = "at \(self.minutesFromIntToString(minutes: minutesPaused)):00"
                     self.minutesPausedView.isHidden = true
+                    self.greyOutView.isHidden = true
                 }
             }
         }
@@ -302,6 +376,7 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
                         
                         self.tableView.userRatingCell.detailTextLabel?.text = "\(rateAsDouble)"
                         self.rateView.isHidden = true
+                        self.greyOutView.isHidden = true
                     }
                 }
             }

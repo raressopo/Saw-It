@@ -17,6 +17,7 @@ class AddedMovieCell: UITableViewCell {
     @IBOutlet weak var genreLabel: UILabel!
     @IBOutlet weak var releaseDateLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var userRatingLabel: UILabel!
     @IBOutlet weak var posterImageView: UIImageView!
 }
 
@@ -151,7 +152,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.genreLabel.text = movie.genreAsString()
         cell.releaseDateLabel.text = movie.releaseDate
         
-        var rating = "⭐️ "
+        if movie.userRating > 0 {
+            cell.userRatingLabel.text = "User: ⭐️ \(movie.userRating)"
+        } else {
+            cell.userRatingLabel.text = "Unrated"
+        }
+        
+        var rating = "IMDB: ⭐️ "
         rating.append("\(movie.rating)")
         cell.ratingLabel.text = rating
         

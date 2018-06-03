@@ -33,12 +33,7 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
     // MARK: View lifecycle
     
     override func viewDidLoad() {
-        tableView = self.childViewControllers[0] as! MovieDetailsTableViewController
-        tableView.tableView.delegate = self
-        tableView.tableView.dataSource = self
-        
-        statusPicker.delegate = self
-        statusPicker.dataSource = self
+        self.delegateSetup()
         
         imageView.image = movie.poster
         movieTitleLabel.text = movie.title
@@ -51,14 +46,13 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
             tableView.userRatingCell.detailTextLabel?.text = "\(movie.userRating)"
         }
         
-        
         if movie.status!.rawValue >= 0 && movie.status!.rawValue <= 2 {
             tableView.statusCell.detailTextLabel?.text = "\(movie.status!.asString())"
             
             statusPicker.selectRow((movie.status?.rawValue)!, inComponent: 0, animated: false)
         }
         
-        tableView.pausedMinutesCell.detailTextLabel?.text = "at \(self.minutesFromIntToString(minutes: movie.minutesPaused)):00"
+        tableView.pausedMinutesCell.detailTextLabel?.text = movie.status?.rawValue == 1 ? "at \(self.minutesFromIntToString(minutes: movie.minutesPaused)):00" : ""
         
         self.configureBorderViews()
         
@@ -140,7 +134,12 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
                                 let url = URL.init(string: "https://image.tmdb.org/t/p/original/\(profilePath)")
                             
                                 let receivedData = NSData.init(contentsOf: url!)
-                                actor2.profile = UIImage.init(data: receivedData! as Data)!
+                                
+                                if receivedData != nil {
+                                    actor2.profile = UIImage.init(data: receivedData! as Data)!
+                                } else {
+                                    actor2.profile = UIImage.init(named: "noImage")!
+                                }
                             }
                         }
                     }
@@ -200,6 +199,15 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
         actorsLoadingView.layer.cornerRadius = 5
     }
     
+    func delegateSetup() {
+        tableView = self.childViewControllers[0] as! MovieDetailsTableViewController
+        tableView.tableView.delegate = self
+        tableView.tableView.dataSource = self
+        
+        statusPicker.delegate = self
+        statusPicker.dataSource = self
+    }
+    
     // MARK: TableView delegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -208,6 +216,10 @@ class MovieDetailsViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.tableView(tableView, cellForRowAt: indexPath)
+        
+        if indexPath.row == 7 && movie.status?.rawValue != 1 {
+            cell.isUserInteractionEnabled = false
+        }
         
         return cell;
     }

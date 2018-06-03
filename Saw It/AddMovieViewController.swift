@@ -18,19 +18,20 @@ class AddMovieVieController: UIViewController, UISearchBarDelegate, UITableViewD
     var allMovies = [[String:Any]]()
     var movieAdded = false
     
+    // MARK: View lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
     }
     
+    // MARK: Search bar delegate methods
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.count > 1 {
             let searchString = searchText.replacingOccurrences(of: " ", with: "%20")
             let url = NSURL(string: "https://api.themoviedb.org/3/search/movie?api_key=d82d110a851216802c26c3ad4bcf70c2&language=en-US&query=\(searchString)&page=1&include_adult=false")
-            
-            self.movieTitles = [String]()
-            self.movieReleaseDates = [String]()
             
             URLSession.shared.dataTask(with: (url as URL?)!, completionHandler: {(data, response, error) -> Void in
                 if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary {
@@ -53,6 +54,8 @@ class AddMovieVieController: UIViewController, UISearchBarDelegate, UITableViewD
             }).resume()
         }
     }
+    
+    // MARK: Table view delegate methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.movieTitles.count
@@ -94,6 +97,8 @@ class AddMovieVieController: UIViewController, UISearchBarDelegate, UITableViewD
                                 if error == nil {
                                     self.movieAdded = true
                                 }
+                                
+                                return
                             }
                         }
                     }

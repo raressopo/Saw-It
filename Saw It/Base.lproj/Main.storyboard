@@ -71,7 +71,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -114,7 +114,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sZB-5c-mf2">
-                                <rect key="frame" x="48" y="248" width="279" height="30"/>
+                                <rect key="frame" x="48" y="204" width="279" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="9oN-Bi-ysO"/>
                                 </constraints>
@@ -123,7 +123,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GBj-ye-WxK">
-                                <rect key="frame" x="48" y="286" width="279" height="30"/>
+                                <rect key="frame" x="48" y="242" width="279" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="dU5-ww-8Oa"/>
                                 </constraints>
@@ -132,7 +132,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="E-Mail" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NEq-W4-0uR">
-                                <rect key="frame" x="48" y="324" width="279" height="30"/>
+                                <rect key="frame" x="48" y="280" width="279" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="vne-Md-iB4"/>
                                 </constraints>
@@ -141,7 +141,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mnX-N5-yYp">
-                                <rect key="frame" x="48" y="362" width="279" height="30"/>
+                                <rect key="frame" x="48" y="318" width="279" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="BQl-qm-FMF"/>
                                 </constraints>
@@ -150,13 +150,13 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VSX-u3-hcy">
-                                <rect key="frame" x="48" y="400" width="279" height="30"/>
+                                <rect key="frame" x="48" y="356" width="279" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="siF-pj-DCo">
-                                <rect key="frame" x="160" y="438" width="55" height="30"/>
+                                <rect key="frame" x="160" y="394" width="55" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="55" id="4kx-qj-Uy2"/>
                                 </constraints>
@@ -166,7 +166,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wny-Vf-PlJ">
-                                <rect key="frame" x="162" y="476" width="51" height="30"/>
+                                <rect key="frame" x="162" y="432" width="51" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="51" id="orO-L0-Sxs"/>
                                 </constraints>
@@ -983,7 +983,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="123.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="orx-nN-Wa7">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noImage" translatesAutoresizingMaskIntoConstraints="NO" id="orx-nN-Wa7">
                                             <rect key="frame" x="16" y="5.5" width="87" height="113"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="87" id="2ca-Rf-qtA"/>
@@ -1071,6 +1071,9 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="noImage" width="300" height="500"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Sbu-DX-K8D"/>
     </inferredMetricsTieBreakers>

@@ -27,7 +27,15 @@ class ActorsTableViewController: UITableViewController {
         
         cell.actorNameCell.text = actor.name
         cell.actorCharacterCell.text = "as \(actor.character)"
-        cell.actorProfileImageView.image = actor.profile
+        
+        let cgref = actor.profile.cgImage
+        let cim = actor.profile.ciImage
+        
+        if (cgref != nil) || (cim != nil) {
+            cell.actorProfileImageView.image = actor.profile
+        } else {
+            cell.actorProfileImageView.image = UIImage.init(named: "noImage")
+        }
         
         return cell
     }

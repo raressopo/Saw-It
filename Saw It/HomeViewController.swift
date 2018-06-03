@@ -33,6 +33,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var menuView: UIView!
     @IBOutlet weak var selectView: UIView!
     
+    // MARK: Initialize methods
+    
+    public func initWithEmail(_ email: String) {
+        self.email = email
+    }
+    
+    // MARK: View lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         selectView.layer.borderColor = UIColor.black.cgColor
@@ -113,9 +121,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.tableView.reloadData()
     }
     
-    public func initWithEmail(_ email: String) {
-        self.email = email
-    }
+    // MARK: Action methods
     
     @IBAction func menuButtonPressed(_ sender: Any) {
         menuView.isHidden = !menuView.isHidden
@@ -139,6 +145,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         dropDown.show()
     }
     
+    // MARK: Table view delegate mathods
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Movie.sharedInstance.movies.count
     }
@@ -158,7 +166,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.userRatingLabel.text = "Unrated"
         }
         
-        var rating = "IMDB: ⭐️ "
+        var rating = "Others: ⭐️ "
         rating.append("\(movie.rating)")
         cell.ratingLabel.text = rating
         
@@ -170,6 +178,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.performSegue(withIdentifier: "movieSelected", sender: self)
     }
+    
+    // MARK: View transition
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "movieSelected" {

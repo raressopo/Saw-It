@@ -33,6 +33,9 @@ class AddMovieVieController: UIViewController, UISearchBarDelegate, UITableViewD
             let searchString = searchText.replacingOccurrences(of: " ", with: "%20")
             let url = NSURL(string: "https://api.themoviedb.org/3/search/movie?api_key=d82d110a851216802c26c3ad4bcf70c2&language=en-US&query=\(searchString)&page=1&include_adult=false")
             
+            self.movieTitles = [String]()
+            self.movieReleaseDates = [String]()
+            
             URLSession.shared.dataTask(with: (url as URL?)!, completionHandler: {(data, response, error) -> Void in
                 if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary {
                     self.allMovies = jsonObj!.value(forKey: "results")! as! Array<[String:Any]>
